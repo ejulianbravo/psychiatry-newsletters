@@ -1,0 +1,13 @@
+# Config
+
+title: Psychiatry | Evidence & Practice
+description: Two psychiatry research newsletters
+url: "https://ejulianbravo.github.io"
+baseurl: "/psychiatry-newsletters"
+
+markdown: kramdown
+
+permalink: /:categories/:year/:month/:day/:title/
+
+exclude:
+  - README.md
