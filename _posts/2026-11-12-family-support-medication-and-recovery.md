@@ -56,7 +56,7 @@ Our editorial reading is that families should be offered practical help rather t
 
 **Reference:** Leucht S, Tardy M, Komossa K, Heres S, Kissling W, Davis JM. (2012). *Maintenance treatment with antipsychotic drugs for schizophrenia.* Cochrane Database of Systematic Reviews, Issue 5, CD008016. [DOI: 10.1002/14651858.CD008016.pub2](https://doi.org/10.1002/14651858.CD008016.pub2). PMID: 22592725.
 
-This is the **2012 Cochrane review supplied for this revision**, a related report of the evidence synthesis previously cited through its Lancet article. It is not the 2020 update supplied earlier. The figures below come from the 2012 review.
+This is the 2012 Cochrane review originally published in Lancet . It is not the 2020 update currently available in Cochrane. The figures below come from the 2012 review.
 
 ### Why this paper matters
 
