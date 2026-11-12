@@ -1,0 +1,17 @@
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
+
+# Private editorial work and local files
+_drafts/
+editorial/
+.DS_Store
+.Rhistory
+.env
+.env.*
+.bundle/
+# Starter placeholders are not newsletter content
+_posts/2026-11-12-psychosis-issue-01.md
+_posts/2026-11-12-welcome-to-jekyll.markdown

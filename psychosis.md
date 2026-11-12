@@ -1,31 +1,12 @@
-# The code looks for all posts with the category psychosis, displays the newest one, and creates a list of earlier issues automatically.
 ---
-layout: default
-title: Psychosis & Families
+layout: null
 permalink: /psychosis/
 ---
-
-# Psychosis & Families
-
-Evidence for families, caregivers, and clinicians.
-
-{% assign issues = site.posts | where: "category", "psychosis" %}
-
-## Current issue
-
-{% for post in issues limit:1 %}
-### [{{ post.title }}]({{ post.url | relative_url }})
-
-Published {{ post.date | date: "%B %d, %Y" }}
-
-{{ post.excerpt }}
-
-[Read the full issue]({{ post.url | relative_url }})
-{% endfor %}
-
-## Previous issues
-
-{% for post in issues offset:1 %}
-- [{{ post.title }}]({{ post.url | relative_url }})
-  ({{ post.date | date: "%B %d, %Y" }})
-{% endfor %}
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Psychosis Psychoeducation</title>
+<link rel="canonical" href="{{ '/psychosis-psychoeducation/' | absolute_url }}">
+<meta http-equiv="refresh" content="0; url={{ '/psychosis-psychoeducation/' | relative_url }}">
+</head><body><p>This page has moved. <a href="{{ '/psychosis-psychoeducation/' | relative_url }}">Continue to Psychosis Psychoeducation</a>.</p></body></html>

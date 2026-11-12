@@ -1,0 +1,24 @@
+---
+layout: newsletter-site
+---
+{% assign series = site.data.newsletters | where: 'slug', page.newsletter | first %}
+{% assign issues = site.posts | where: 'newsletter', page.newsletter | where: 'approved', true | sort: 'date' | reverse %}
+<header class="intro archive-intro">
+  <p class="eyebrow">Issue archive</p>
+  <h1>{{ series.title }}</h1>
+  <p class="lead">{{ series.description }}</p>
+</header>
+{% if issues.size > 0 %}
+<ol class="issue-list">
+{% for issue in issues %}
+  <li>
+    <p class="eyebrow">{% if forloop.first %}Latest issue · {% endif %}<time datetime="{{ issue.date | date_to_xmlschema }}">{{ issue.date | date: '%B %-d, %Y' }}</time></p>
+    <h2><a href="{{ issue.url | relative_url }}">{{ issue.title | escape }}</a></h2>
+    <p>{{ issue.description | default: issue.excerpt | strip_html | truncatewords: 35 }}</p>
+  </li>
+{% endfor %}
+</ol>
+{% else %}
+<div class="empty-state"><h2>The first issue is forthcoming.</h2><p>Published editions will appear here, with the latest issue first.</p></div>
+{% endif %}
+<p class="back-link"><a href="{{ '/' | relative_url }}">← Back to both newsletters</a></p>

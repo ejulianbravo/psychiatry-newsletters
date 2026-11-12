@@ -1,0 +1,13 @@
+---
+layout: newsletter-site
+---
+{% assign series = site.data.newsletters | where: 'slug', page.newsletter | first %}
+<article class="issue-body">
+  <header class="intro archive-intro">
+    <p class="eyebrow">{{ series.title | escape }}</p>
+    <h1>{{ page.title | escape }}</h1>
+    <p><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time></p>
+  </header>
+  {{ content }}
+</article>
+<p class="back-link"><a href="{{ series.url | relative_url }}">← Browse the issue archive</a></p>
