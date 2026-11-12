@@ -1,31 +1,12 @@
-# The code looks for all posts with the category landmarks, displays the newest one, and creates a list of earlier issues automatically.
 ---
-layout: default
-title: Landmark Papers in Psychiatry
+layout: null
 permalink: /landmarks/
 ---
-
-# Landmark Papers in Psychiatry
-
-Three influential studies, examined critically.
-
-{% assign issues = site.posts | where: "category", "landmarks" %}
-
-## Current issue
-
-{% for post in issues limit:1 %}
-### [{{ post.title }}]({{ post.url | relative_url }})
-
-Published {{ post.date | date: "%B %d, %Y" }}
-
-{{ post.excerpt }}
-
-[Read the full issue]({{ post.url | relative_url }})
-{% endfor %}
-
-## Previous issues
-
-{% for post in issues offset:1 %}
-- [{{ post.title }}]({{ post.url | relative_url }})
-  ({{ post.date | date: "%B %d, %Y" }})
-{% endfor %}
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landmark Psychiatry Papers</title>
+<link rel="canonical" href="{{ '/landmark-psychiatry-papers/' | absolute_url }}">
+<meta http-equiv="refresh" content="0; url={{ '/landmark-psychiatry-papers/' | relative_url }}">
+</head><body><p>This page has moved. <a href="{{ '/landmark-psychiatry-papers/' | relative_url }}">Continue to Landmark Psychiatry Papers</a>.</p></body></html>

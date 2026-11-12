@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title | escape }} · {% endif %}{{ site.title | escape }}</title>
+  <meta name="description" content="{{ page.description | default: site.description | escape }}">
+  <link rel="stylesheet" href="{{ '/assets/newsletters.css' | relative_url }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="brand" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
+    <nav aria-label="Main navigation"><a href="{{ '/landmark-psychiatry-papers/' | relative_url }}">Landmark papers</a><a href="{{ '/psychosis-psychoeducation/' | relative_url }}">Psychosis psychoeducation</a></nav>
+  </header>
+  <main id="main" class="wrap">{{ content }}</main>
+  <footer class="wrap">Evidence, history, and clinical perspectives in psychiatry.</footer>
+</body>
+</html>
