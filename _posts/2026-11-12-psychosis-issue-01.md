@@ -1,4 +1,3 @@
-# Example
 ---
 layout: default
 title: "Psychosis & Families | Issue 01"
