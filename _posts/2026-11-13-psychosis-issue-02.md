@@ -4,7 +4,7 @@ title: "Recovery in everyday life: thinking, work, and physical health"
 date: 2026-11-09
 newsletter: psychosis-psychoeducation
 description: "Three landmark trials on cognitive rehabilitation, employment services, and accessible physical-health support."
-approved: true
+approved: false
 published: false
 editorial_status: draft-for-review
 ---
