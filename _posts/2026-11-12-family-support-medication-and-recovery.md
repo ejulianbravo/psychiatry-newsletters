@@ -7,7 +7,7 @@ author: Editorial Team
 description: "Three perspectives on supporting someone with psychosis: family intervention, relapse prevention, and coordinated early care."
 approved: true
 published: true
-editorial_status: approved
+editorial_status: published
 ---
 
 ## Introduction
