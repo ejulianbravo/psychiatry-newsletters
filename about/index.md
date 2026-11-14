@@ -9,9 +9,23 @@ permalink: /about/
 
 # About this newsletter experiment
 
-**Psychiatry Papers & Perspectives** is a Jekyll-based publishing experiment exploring newsletter automation and AI-assisted scholarly output. Its aim is to make influential psychiatric research accessible while keeping the methods, uncertainty, and editorial decisions visible.
+**Psychiatry Papers & Perspectives** is a Jekyll-based publishing experiment testing the capacity of large language models (LLMs) to help create a newsletter, build its website, and support a repeatable publication workflow. It explores the whole process: finding and discussing research, preparing a manuscript, organizing an accessible archive, and moving an approved version into publication.
 
-Jekyll turns reviewed Markdown files into the website. It does not select evidence, validate references, or make clinical judgments. The experiment concerns how research, drafting, review, and publication can work together; using AI or automation does not make a text reliable by itself.
+The intention is to understand how much of this work LLMs can perform usefully, where they need correction or supervision, and how their contributions can be made transparent. Newsletter writing and site building provide a practical setting in which to examine those questions together. The resulting scholarly output is also a way to assess the process: its usefulness depends on the quality of the evidence, interpretation, presentation, and editorial decisions behind it.
+
+## What the project is trying to achieve
+
+The project has three connected aims:
+
+- **Test LLM-assisted creation and automation.** Explore how reliably an LLM can help research and draft recurring issues, create and maintain the website, and carry out routine publishing tasks. Recording the model and its role makes that contribution visible as tools and methods change.
+- **Make psychiatric research easier to access.** Bring influential papers, clear explanations, critical appraisal, and links to original sources into a website where readers can easily find the current issue and earlier editions. The two newsletters adapt the discussion to different audiences while retaining methodological substance and uncertainty.
+- **Develop a reliable publication pipeline with editorial control.** Reduce repeated copying, formatting, and technical troubleshooting through a consistent sequence of drafting, review, approval, building, publication, and live verification. Decisions about what to publish, how to interpret the evidence, and when a version is ready remain with the editor.
+
+Success would mean that the process can be repeated across issues without losing sources, provenance, approved wording, or control over publication. A reliable pipeline should make the status of an issue clear, carry the reviewed version into the correct archive, and support traceable corrections. Producing text quickly or building a working page is only part of that goal.
+
+This is an exploratory publishing project, not a completed demonstration that LLMs can independently produce trustworthy scholarship. The aim is to learn from the work required to make each issue accurate, useful, accessible, and ready for publication, including the errors and limitations encountered along the way.
+
+Jekyll provides the website-building step: it turns reviewed Markdown files into pages and archives. It does not select evidence, validate references, or make clinical judgments. Automated checks and human editorial review have distinct roles within the same process.
 
 ## Two newsletters, two audiences
 
