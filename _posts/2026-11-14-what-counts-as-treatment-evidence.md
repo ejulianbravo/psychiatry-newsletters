@@ -5,7 +5,7 @@ date: 2026-11-14
 newsletter: landmark-psychiatry-papers
 description: "Three landmark studies on testing treatment: lithium in mania, cognitive therapy for depression, and the CATIE antipsychotic trial."
 approved: true
-published: false
+published: true
 editorial_status: published
 ai_generation:
   provider: OpenAI
