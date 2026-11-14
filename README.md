@@ -28,6 +28,28 @@ After a successful deployment, verify the live issue, homepage, and archive, the
 
 For a correction, revise a private local copy first. After reviewing the correction, replace the issue at the same `_posts/` path and keep its date and permalink, with the `approved` state until that corrected version is deployed and verified. The current live issue remains unchanged until the next manual publish. Keep the review and publication record locally in `editorial/`.
 
+## AI disclosure and About page
+
+The `newsletter-issue` layout adds `_includes/newsletter-footer.html` to both series. Keep this boilerplate out of individual article bodies. Each website issue displays AI assistance, its model and generation date when recorded, educational limits, the publisher's editorial responsibility, and a link to `/about/`.
+
+The About page explains the Jekyll newsletter-automation experiment, AI-assisted scholarly output, metadata policy, review and manual publication process, editorial accountability, and corrections. Longer project explanations belong there, not in every issue footer. Older issues with missing model metadata explicitly say it was not recorded; never infer their model from the current issue.
+
+For each new AI-assisted draft, record verified generation details in front matter, for example:
+
+```yaml
+ai_generation:
+  provider: OpenAI
+  model: gpt-6.1-sol
+  model_family: GPT-6.1
+  interface: Codex
+  generation_date: 2026-11-13
+  model_identity_source: Codex session metadata
+  role: Research assistance and initial drafting
+publishing_platform: Jekyll
+```
+
+This is an example, not a default model or date. Use the identifier and generation date actually recorded for that issue. Keep generation provenance separate from publication dates and editorial approval. When distributing a standalone export or email, include the same short disclosure; the website's layout is not applied to raw Markdown or the default RSS content.
+
 ## Validation without publication
 
 Pull requests and pushes to `main` run **Validate editorial workflow**. It checks metadata and tracked private files, tests the four editorial scenarios below, and builds the site. It has read-only repository permissions and does not upload a Pages artifact or deploy.

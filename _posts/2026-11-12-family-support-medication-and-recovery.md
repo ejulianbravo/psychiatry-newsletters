@@ -111,5 +111,3 @@ These papers should not be ranked by their percentages: they studied different p
 Current guidance is a separate source. NICE's adult psychosis guideline recommends structured family intervention, shared medication decisions, and early-intervention services that address psychological, social, occupational, educational, and medication needs. Family intervention should include at least ten planned sessions over 3–12 months. These are UK recommendations; local service pathways may differ. [NICE CG178, sections 1.3.1, 1.3.5, and 1.3.7](https://www.nice.org.uk/Guidance/CG178/chapter/recommendations?print=true).
 
 A starting question is: **What matters most to the person this month, what support is available, and how will we know whether the plan is helping?** Families can contribute observations and questions while respecting the person's preferences and privacy.
-
-*Prepared with assistance from GPT. Educational content; individual treatment decisions belong in discussion with the treating team.*

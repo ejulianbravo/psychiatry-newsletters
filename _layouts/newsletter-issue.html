@@ -9,5 +9,6 @@ layout: newsletter-site
     <p><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time></p>
   </header>
   {{ content }}
+  {% include newsletter-footer.html %}
 </article>
 <p class="back-link"><a href="{{ series.url | relative_url }}">← Browse the issue archive</a></p>

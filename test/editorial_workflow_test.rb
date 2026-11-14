@@ -35,11 +35,12 @@ def fixture
   end
 end
 
-def issue(root, name, series: "psychosis-psychoeducation", status: "approved", body: "APPROVED_MARKER")
+def issue(root, name, series: "psychosis-psychoeducation", status: "approved", body: "APPROVED_MARKER", generation: nil)
   approved, published = Editorial::STATES.fetch(status)
   path = File.join(root, "_posts", "2020-01-01-#{name}.md")
   data = { "title" => name, "date" => Date.new(2020, 1, 1), "newsletter" => series,
            "approved" => approved, "published" => published, "editorial_status" => status }
+  data["ai_generation"] = generation if generation
   File.write(path, YAML.dump(data) + "---\n\n#{body}\n")
   path
 end
@@ -108,7 +109,9 @@ checks = {
   },
   "3. Approved issues build in separate archives without changing source" => lambda {
     fixture do |root, site|
-      path = issue(root, "Approved psychosis fixture", body: "PSYCHOSIS_APPROVED_SENTINEL")
+      path = issue(root, "Approved psychosis fixture", body: "PSYCHOSIS_APPROVED_SENTINEL",
+                   generation: { "model" => "recorded-model", "model_family" => "Recorded family",
+                                 "generation_date" => Date.new(2019, 12, 31) })
       original = File.binread(path)
       issue(root, "Approved landmark fixture", series: "landmark-psychiatry-papers", body: "LANDMARK_APPROVED_SENTINEL")
       build(root, site)
@@ -121,6 +124,20 @@ checks = {
       feed = File.read(File.join(site, "feed.xml"))
       assert(feed.include?("PSYCHOSIS_APPROVED_SENTINEL") && feed.include?("LANDMARK_APPROVED_SENTINEL"), "Approved issues missing from feed")
       assert(feed.include?("https://example.github.io/psychiatry-newsletters/"), "Incorrect feed URL")
+      about = File.read(File.join(site, "about/index.html"))
+      assert(about.include?("Jekyll-based publishing experiment") && about.include?("I assume editorial responsibility"), "About page missing project scope or responsibility")
+      ["PSYCHOSIS_APPROVED_SENTINEL", "LANDMARK_APPROVED_SENTINEL"].each do |marker|
+        article = Dir.glob(File.join(site, "2020", "**", "*.html")).map { |p| File.read(p) }.find { |html| html.include?(marker) }
+        assert(article && article.scan('class="issue-disclosure"').length == 1, "Each series needs exactly one disclosure footer")
+        assert(article.include?('href="/psychiatry-newsletters/about/"'), "Footer About link has wrong project path")
+        if marker == "PSYCHOSIS_APPROVED_SENTINEL"
+          assert(article.include?("recorded-model") && article.include?("December 31, 2019"), "Recorded model/date missing")
+          assert(!article.include?("Model details were not recorded"), "Recorded provenance shown as missing")
+        else
+          assert(article.include?("Model details were not recorded for this edition"), "Missing model must not be invented")
+          assert(!article.include?("recorded-model"), "Model metadata leaked between editions")
+        end
+      end
     end
   },
   "4. Corrections rebuild at the same address; deployment stays manual" => lambda {

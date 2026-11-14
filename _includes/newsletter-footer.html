@@ -1,0 +1,12 @@
+<footer class="issue-disclosure" aria-label="AI disclosure and editorial responsibility">
+  <p class="eyebrow">AI and editorial disclosure</p>
+  <p>AI-assisted research and drafting.
+    {% if page.ai_generation.model %}
+    <strong>Model:</strong> {% if page.ai_generation.model_family %}{{ page.ai_generation.model_family | escape }} {% endif %}<code>{{ page.ai_generation.model | escape }}</code>{% if page.ai_generation.generation_date %}. <strong>Generated:</strong> <time datetime="{{ page.ai_generation.generation_date | date_to_xmlschema }}">{{ page.ai_generation.generation_date | date: '%B %-d, %Y' }}</time>{% endif %}.
+    {% else %}
+    Model details were not recorded for this edition.
+    {% endif %}
+  </p>
+  <p>AI-generated content may contain errors or omissions. For education only; this does not replace individualized clinical advice or current clinical guidance.</p>
+  <p>As editor and publisher, I take editorial responsibility for published content and corrections. <a href="{{ '/about/' | relative_url }}">About this newsletter experiment and its editorial process</a>.</p>
+</footer>
