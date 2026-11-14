@@ -6,6 +6,7 @@ layout: newsletter-site
   <header class="intro archive-intro">
     <p class="eyebrow">{{ series.title | escape }}</p>
     <h1>{{ page.title | escape }}</h1>
+    {% if page.byline %}<p class="byline">{{ page.byline | escape }}</p>{% endif %}
     <p><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time></p>
   </header>
   {{ content }}
