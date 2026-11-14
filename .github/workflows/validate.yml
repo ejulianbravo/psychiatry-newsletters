@@ -1,0 +1,31 @@
+name: Validate editorial workflow
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.12'
+          bundler-cache: true
+      - name: Validate public source and editorial states
+        run: bundle exec ruby scripts/validate_editorial.rb
+      - name: Test editorial workflow
+        run: bundle exec ruby test/editorial_workflow_test.rb
+      - name: Build without publishing
+        env:
+          JEKYLL_ENV: production
+          PAGES_ORIGIN: https://ejulianbravo.github.io
+          PAGES_BASE_PATH: /psychiatry-newsletters
+        run: bundle exec ruby scripts/build_pages.rb
