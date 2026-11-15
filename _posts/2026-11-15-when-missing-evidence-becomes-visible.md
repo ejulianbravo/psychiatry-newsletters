@@ -6,8 +6,8 @@ newsletter: landmark-psychiatry-papers
 description: 'Three investigations of the evidence behind treatment claims: antidepressant
   reporting, unpublished psychotherapy trials, and the restoration of Study 329.'
 approved: true
-published: false
-editorial_status: approved
+published: true
+editorial_status: published
 ai_generation:
   provider: OpenAI
   model:
