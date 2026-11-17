@@ -4,9 +4,9 @@ title: "What matters to the person belongs at the centre of treatment"
 date: 2026-11-16
 newsletter: psychosis-psychoeducation
 description: "Thinking difficulties, cannabis, and medication preferences in care shaped by the person's own goals."
-editorial_status: approved
+editorial_status: published
 approved: true
-published: false
+published: true
 ai_generation:
   provider: OpenAI
   model: null

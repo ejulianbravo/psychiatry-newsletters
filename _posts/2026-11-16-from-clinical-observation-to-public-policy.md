@@ -6,8 +6,8 @@ issue: 3
 newsletter: landmark-psychiatry-papers
 description: "Three early studies of cognitive therapy, community treatment, and childhood deprivation—and the path from clinical questions to established services and policy."
 approved: true
-published: false
-editorial_status: approved
+published: true
+editorial_status: published
 byline: Edited by Edward Bravo
 publishing_platform: Jekyll
 ai_generation:
