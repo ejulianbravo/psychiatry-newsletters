@@ -35,19 +35,19 @@ def fixture
   end
 end
 
-def issue(root, name, series: "psychosis-psychoeducation", status: "approved", body: "APPROVED_MARKER", generation: nil)
+def issue(root, name, series: "psychosis-psychoeducation", status: "approved", body: "APPROVED_MARKER", generation: nil, date: Date.new(2020, 1, 1))
   approved, published = Editorial::STATES.fetch(status)
-  path = File.join(root, "_posts", "2020-01-01-#{name}.md")
-  data = { "title" => name, "date" => Date.new(2020, 1, 1), "newsletter" => series,
+  path = File.join(root, "_posts", "#{date.iso8601}-#{name}.md")
+  data = { "title" => name, "date" => date, "newsletter" => series,
            "approved" => approved, "published" => published, "editorial_status" => status }
   data["ai_generation"] = generation if generation
   File.write(path, YAML.dump(data) + "---\n\n#{body}\n")
   path
 end
 
-def build(root, destination, success: true)
+def build(root, destination, success: true, origin: "https://example.github.io", base_path: "/psychiatry-newsletters")
   stdout, stderr, result = Open3.capture3(
-    { "PAGES_ORIGIN" => "https://example.github.io", "PAGES_BASE_PATH" => "/psychiatry-newsletters",
+    { "PAGES_ORIGIN" => origin, "PAGES_BASE_PATH" => base_path,
       "PAGES_DESTINATION" => destination, "JEKYLL_ENV" => "production" },
     RbConfig.ruby, File.join(root, "scripts/build_pages.rb"), chdir: root
   )
@@ -160,6 +160,64 @@ checks = {
     assert(validate.fetch("on", validate[true]).keys.sort == %w[pull_request push], "Validation triggers missing")
     assert(validate.fetch("permissions") == { "contents" => "read" }, "Validation has write permissions")
     assert(!File.read(File.join(ROOT, ".github/workflows/validate.yml")).match?(/deploy-pages|upload-pages-artifact|pages: write|id-token: write/), "Validation can deploy")
+  },
+  "5. Latest links and named reading links stay within their newsletter" => lambda {
+    fixture do |root, site|
+      FileUtils.rm_rf(File.join(root, "_posts"))
+      FileUtils.mkdir_p(File.join(root, "_posts"))
+      first = issue(root, "psychosis-first", date: Date.new(2020, 1, 1), body: "FIRST_SERIES_ISSUE")
+      latest = issue(root, "psychosis-latest", date: Date.new(2020, 1, 3), body: "LATEST_SERIES_ISSUE")
+      issue(root, "landmark-only", series: "landmark-psychiatry-papers", date: Date.new(2020, 1, 2))
+      issue(root, "future-issue", date: Date.new(2100, 1, 1), body: "FUTURE_ISSUE_SENTINEL")
+      FileUtils.mkdir_p(File.join(root, "_drafts"))
+      File.write(File.join(root, "_drafts/private.md"), "PRIVATE_LATEST_SENTINEL")
+      originals = [first, latest].to_h { |path| [path, File.binread(path)] }
+      build(root, site)
+      latest_url = "/psychiatry-newsletters/2020/01/03/psychosis-latest.html"
+      previous_url = "/psychiatry-newsletters/2020/01/01/psychosis-first.html"
+      redirect = File.read(File.join(site, "psychosis/latest/index.html"))
+      assert(redirect.include?(%(data-latest-target="#{latest_url}")), "Latest shortcut selected the wrong issue or base path")
+      assert(redirect.include?(%(url=#{latest_url})) && redirect.include?("<noscript>"), "Latest shortcut needs a no-JavaScript fallback")
+      assert(redirect.include?("noindex, follow"), "Redirect should not become a duplicate search result")
+      article = File.read(File.join(site, "2020/01/03/psychosis-latest.html"))
+      assert(article.include?('class="issue-status">Latest issue'), "Newest issue is not identified")
+      assert(article.include?('data-newsletter="psychosis-psychoeducation"'), "Issue lost its series identity")
+      assert(article.include?(%(rel="prev" href="#{previous_url}")), "Named previous link points outside this newsletter")
+      assert(article.index('class="previous-issue-invitation"') < article.index("LATEST_SERIES_ISSUE"), "Previous issue invitation must appear before the article")
+      assert(!article.include?("landmark-only") && !article.include?('rel="next"'), "Latest issue has foreign or newer issue navigation")
+      earlier = File.read(File.join(site, "2020/01/01/psychosis-first.html"))
+      assert(earlier.include?('archive-status') && earlier.include?(%(rel="next" href="#{latest_url}")), "Older issue needs archive status and named forward navigation")
+      assert(!earlier.include?('rel="prev"'), "First issue must not wrap around to the latest issue")
+      landing = File.read(File.join(site, "psychosis-psychoeducation/index.html"))
+      assert(landing.include?('id="previous-issues"') && landing.include?("psychosis-first"), "Series home must invite exploration of earlier issues")
+      assert(!landing.include?("landmark-only"), "Series home mixed the two issue lists")
+      assert(!output(site).include?("FUTURE_ISSUE_SENTINEL") && !output(site).include?("PRIVATE_LATEST_SENTINEL"), "Future/private content entered reader navigation")
+      originals.each { |path, original| assert(File.binread(path) == original, "Navigation changed an approved manuscript") }
+      issue(root, "psychosis-newest", date: Date.new(2020, 1, 4))
+      build(root, site)
+      updated = File.read(File.join(site, "psychosis/latest/index.html"))
+      assert(updated.include?("/2020/01/04/psychosis-newest.html"), "Permanent latest shortcut did not advance after publication")
+      landmark = File.read(File.join(site, "landmarks/latest/index.html"))
+      assert(landmark.include?("/2020/01/02/landmark-only.html") && !landmark.include?("psychosis-newest"), "Updating one series changed the other latest shortcut")
+    end
+  },
+  "6. Empty and first-issue series work on the custom-domain root" => lambda {
+    fixture do |root, site|
+      FileUtils.rm_rf(File.join(root, "_posts"))
+      FileUtils.mkdir_p(File.join(root, "_posts"))
+      build(root, site, origin: "https://psychiatrypapers.org", base_path: "")
+      empty = File.read(File.join(site, "psychosis/latest/index.html"))
+      assert(empty.include?('data-latest-target="/psychosis-psychoeducation/"'), "Empty series shortcut must fall back to its own home")
+      assert(empty.include?("The first issue is forthcoming."), "Empty series needs an honest state")
+      issue(root, "first-and-latest")
+      build(root, site, origin: "https://psychiatrypapers.org", base_path: "")
+      article = File.read(File.join(site, "2020/01/01/first-and-latest.html"))
+      assert(article.include?('class="issue-status">Latest issue'), "Only issue must be identified as latest")
+      assert(!article.include?('rel="prev"') && !article.include?('rel="next"'), "Single-issue series must not invent neighbors")
+      redirect = File.read(File.join(site, "psychosis/latest/index.html"))
+      assert(redirect.include?('data-latest-target="/2020/01/01/first-and-latest.html"'), "Custom-domain shortcut has a stale project subpath")
+      assert(redirect.include?('href="https://psychiatrypapers.org/2020/01/01/first-and-latest.html"'), "Latest canonical URL has the wrong origin")
+    end
   }
 }
 
@@ -167,4 +225,4 @@ checks.each do |name, check|
   check.call
   puts "PASS #{name}"
 end
-puts "All four editorial workflow scenarios passed. No website was deployed."
+puts "All #{checks.size} editorial and reader-navigation scenarios passed. No website was deployed."

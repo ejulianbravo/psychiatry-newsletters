@@ -1,0 +1,29 @@
+{% assign series = site.data.newsletters | where: 'slug', page.newsletter | first %}
+{% assign latest_issue = site.posts | where: 'newsletter', page.newsletter | where: 'approved', true | sort: 'date' | reverse | first %}
+{% assign destination = latest_issue.url | default: series.url %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Latest issue · {{ series.title | escape }}</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="{{ destination | absolute_url }}">
+  <link rel="stylesheet" href="{{ '/assets/newsletters.css' | relative_url }}">
+  <script defer src="{{ '/assets/latest-issue.js' | relative_url }}" data-latest-target="{{ destination | relative_url | escape }}"></script>
+  <noscript><meta http-equiv="refresh" content="0; url={{ destination | relative_url }}"></noscript>
+</head>
+<body data-newsletter="{{ series.slug | escape }}">
+  <main class="wrap intro latest-link-page">
+    <p class="eyebrow">{{ series.title | escape }}</p>
+    {% if latest_issue %}
+    <p class="issue-status">Latest issue</p>
+    <h1>{{ latest_issue.title | escape }}</h1>
+    <p><a href="{{ destination | relative_url }}">Read the latest issue →</a></p>
+    {% else %}
+    <h1>The first issue is forthcoming.</h1>
+    <p><a href="{{ destination | relative_url }}">Explore {{ series.title | escape }} →</a></p>
+    {% endif %}
+  </main>
+</body>
+</html>

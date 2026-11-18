@@ -50,9 +50,24 @@ publishing_platform: Jekyll
 
 This is an example, not a default model or date. Use the identifier and generation date actually recorded for that issue. Keep generation provenance separate from publication dates and editorial approval. When distributing a standalone export or email, include the same short disclosure; the website's layout is not applied to raw Markdown or the default RSS content.
 
+## Newsletter identity and reader navigation
+
+Each series has its own masthead, audience description, visual accent, and landing page. The landing page features its latest issue and names the previous issues, while keeping a clear link to the other newsletter.
+
+Issue pages identify the newest edition as **Latest issue**. Older editions say **From the archive** and offer a route to the current issue. A named previous-issue invitation appears before the article when an earlier edition exists; named previous/next links at the end remain within the same series. Manuscript wording and generation provenance stay in their existing source files.
+
+Use these permanent destinations for reusable QR codes once this website version is published:
+
+- `/psychosis/latest/` — latest Psychosis Psychoeducation issue.
+- `/landmarks/latest/` — latest Landmark Psychiatry Papers issue.
+
+Their destinations are selected during the normal validated build and advance only when the website is deliberately published. Drafts and future-dated editions are excluded. An empty series falls back to its own landing page. A QR code tied to a particular edition should use that edition's permanent article URL instead.
+
+The latest-issue redirects preserve only the standard `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, and `utm_term` campaign parameters. With JavaScript disabled they still open the correct issue, but do not preserve the incoming campaign tags. These redirect pages do not load analytics; visitor analytics has not yet been configured. Future counting should occur on the destination issue to avoid counting the redirect as a second visit.
+
 ## Validation without publication
 
-Pull requests and pushes to `main` run **Validate editorial workflow**. It checks metadata and tracked private files, tests the four editorial scenarios below, and builds the site. It has read-only repository permissions and does not upload a Pages artifact or deploy.
+Pull requests and pushes to `main` run **Validate editorial workflow**. It checks metadata and tracked private files, tests the editorial and reader-navigation scenarios below, and builds the site. It has read-only repository permissions and does not upload a Pages artifact or deploy.
 
 Run the same checks locally:
 
@@ -70,6 +85,8 @@ The tests use temporary repositories and local builds to check:
 2. Invalid editorial states, missing or quoted booleans, unknown newsletters, malformed YAML, and unapproved public issues block publication.
 3. Approved issues appear in the correct independent archive and feed without changing source metadata.
 4. Reviewed corrections replace the issue at the same address, while deployment remains manually gated.
+5. Latest-issue shortcuts advance with publication, named previous/next links stay within their series, and future/private issues stay out of reader navigation.
+6. Empty and first-issue series work at the custom-domain root without inventing previous editions.
 
 These are local end-to-end build tests, not live deployments. The final live verification still happens after you explicitly publish. Validation alone does not make a required merge check; configure branch protection separately if you want GitHub to prevent merging a failed check.
 

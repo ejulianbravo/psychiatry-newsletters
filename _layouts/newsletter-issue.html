@@ -2,14 +2,43 @@
 layout: newsletter-site
 ---
 {% assign series = site.data.newsletters | where: 'slug', page.newsletter | first %}
+{% assign series_issues = site.posts | where: 'newsletter', page.newsletter | where: 'approved', true | sort: 'date' | reverse %}
+{% assign latest_issue = series_issues.first %}
+{% assign previous_issue = nil %}
+{% assign next_issue = nil %}
+{% for issue in series_issues %}
+  {% if issue.url == page.url %}
+    {% assign previous_index = forloop.index %}
+    {% assign next_index = forloop.index0 | minus: 1 %}
+    {% assign previous_issue = series_issues[previous_index] %}
+    {% if next_index >= 0 %}{% assign next_issue = series_issues[next_index] %}{% endif %}
+    {% break %}
+  {% endif %}
+{% endfor %}
 <article class="issue-body">
-  <header class="intro archive-intro">
-    <p class="eyebrow">{{ series.title | escape }}</p>
+  <header class="intro archive-intro issue-header">
+    <div class="issue-position">
+      {% if page.approved != true %}
+      <p class="issue-status">Draft preview</p>
+      {% elsif page.url == latest_issue.url %}
+      <p class="issue-status">Latest issue</p>
+      {% else %}
+      <p class="issue-status archive-status">From the archive</p>
+      <a href="{{ series.latest_url | relative_url }}">Read the latest issue →</a>
+      {% endif %}
+    </div>
     <h1>{{ page.title | escape }}</h1>
     {% if page.byline %}<p class="byline">{{ page.byline | escape }}</p>{% endif %}
     <p><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time></p>
+    {% if previous_issue %}
+    <aside class="previous-issue-invitation" aria-label="Previous issue in this newsletter">
+      <p class="eyebrow">Previously in {{ series.title | escape }}</p>
+      <a class="previous-issue-title" rel="prev" href="{{ previous_issue.url | relative_url }}">{{ previous_issue.title | escape }}</a>
+      <p class="history-more"><a href="{{ series.url | relative_url }}#previous-issues">Explore earlier issues →</a></p>
+    </aside>
+    {% endif %}
   </header>
   {{ content }}
   {% include newsletter-footer.html %}
 </article>
-<p class="back-link"><a href="{{ series.url | relative_url }}">← Browse the issue archive</a></p>
+{% include newsletter-reading-links.html %}
