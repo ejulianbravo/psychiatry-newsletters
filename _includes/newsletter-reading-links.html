@@ -1,0 +1,20 @@
+<nav class="reading-links issue-body" aria-label="More issues of {{ series.title | escape }}">
+  <p class="eyebrow">Keep reading {{ series.title | escape }}</p>
+  <div class="reading-links-grid">
+    {% if previous_issue %}
+    <a class="reading-link" rel="prev" href="{{ previous_issue.url | relative_url }}">
+      <span class="reading-direction">← Previous issue</span>
+      <span class="reading-title">{{ previous_issue.title | escape }}</span>
+      <time datetime="{{ previous_issue.date | date_to_xmlschema }}">{{ previous_issue.date | date: '%B %-d, %Y' }}</time>
+    </a>
+    {% endif %}
+    {% if next_issue %}
+    <a class="reading-link" rel="next" href="{{ next_issue.url | relative_url }}">
+      <span class="reading-direction">Next issue →</span>
+      <span class="reading-title">{{ next_issue.title | escape }}</span>
+      <time datetime="{{ next_issue.date | date_to_xmlschema }}">{{ next_issue.date | date: '%B %-d, %Y' }}</time>
+    </a>
+    {% endif %}
+  </div>
+  <p class="series-home-link"><a href="{{ series.url | relative_url }}">All issues of {{ series.title | escape }} →</a></p>
+</nav>
