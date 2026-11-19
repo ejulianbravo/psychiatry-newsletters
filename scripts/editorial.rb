@@ -16,6 +16,7 @@ module Editorial
     "published" => [true, true]
   }.freeze
   PRIVATE_PATHS = %w[_drafts editorial _site].freeze
+  PROVENANCE_REQUIRED_FROM = "2026-11-19"
 
   def self.metadata(path)
     text = File.read(path, encoding: "UTF-8").sub(/\A\uFEFF/, "")
@@ -60,6 +61,14 @@ module Editorial
       validate_data!(data, path)
       unless %w[approved published].include?(data["editorial_status"])
         raise Invalid, "#{path}: unapproved issues belong in local _drafts/, outside the public repository"
+      end
+      next if File.basename(path)[0, 10] < PROVENANCE_REQUIRED_FROM
+
+      generation = data["ai_generation"]
+      unless generation.is_a?(Hash) && %w[model model_identity_source].all? { |key|
+        generation[key].is_a?(String) && !generation[key].strip.empty?
+      }
+        raise Invalid, "#{path}: record the exact AI model in ai_generation.model and its evidence in ai_generation.model_identity_source"
       end
     end
     posts
