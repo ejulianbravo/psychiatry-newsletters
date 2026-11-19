@@ -2,11 +2,28 @@
   <p class="eyebrow">AI and editorial disclosure</p>
   <p>AI-assisted research and drafting.
     {% if page.ai_generation.model %}
-    <strong>Model:</strong> {% if page.ai_generation.model_family %}{{ page.ai_generation.model_family | escape }} {% endif %}<code>{{ page.ai_generation.model | escape }}</code>{% if page.ai_generation.generation_date %}. <strong>Generated:</strong> <time datetime="{{ page.ai_generation.generation_date | date_to_xmlschema }}">{{ page.ai_generation.generation_date | date: '%B %-d, %Y' }}</time>{% endif %}.
+    <strong>Model:</strong> {% if page.ai_generation.model_family %}{{ page.ai_generation.model_family | escape }} {% endif %}<code>{{ page.ai_generation.model | escape }}</code>.
+    {% elsif page.ai_generation.model_family %}
+    <strong>Model family:</strong> {{ page.ai_generation.model_family | escape }}. Exact model identifier unavailable.
     {% else %}
     Model details were not recorded for this edition.
     {% endif %}
+    {% if page.ai_generation.generation_date %}
+    <strong>Generated:</strong> <time datetime="{{ page.ai_generation.generation_date | date_to_xmlschema }}">{{ page.ai_generation.generation_date | date: '%B %-d, %Y' }}</time>.
+    {% endif %}
   </p>
+  {% for revision in page.ai_revisions %}
+  <p><strong>AI-assisted revision{% if revision.revision_date %} on <time datetime="{{ revision.revision_date | date_to_xmlschema }}">{{ revision.revision_date | date: '%B %-d, %Y' }}</time>{% endif %}.</strong>
+    {% if revision.model %}
+    {% if revision.model_family %}{{ revision.model_family | escape }} {% endif %}<code>{{ revision.model | escape }}</code>.
+    {% elsif revision.model_family %}
+    {{ revision.model_family | escape }}. Exact model identifier unavailable.
+    {% else %}
+    Revision model details unavailable.
+    {% endif %}
+    {% if revision.role %}{{ revision.role | escape }}{% endif %}
+  </p>
+  {% endfor %}
   <p>AI-generated content may contain errors or omissions. For education only; this does not replace individualized clinical advice or current clinical guidance.</p>
   <p>As editor and publisher, I take editorial responsibility for published content and corrections. <a href="{{ '/about/' | relative_url }}">About this newsletter experiment and its editorial process</a>.</p>
 </footer>

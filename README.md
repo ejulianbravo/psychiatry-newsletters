@@ -50,6 +50,8 @@ publishing_platform: Jekyll
 
 This is an example, not a default model or date. Use the identifier and generation date actually recorded for that issue. Keep generation provenance separate from publication dates and editorial approval. When distributing a standalone export or email, include the same short disclosure; the website's layout is not applied to raw Markdown or the default RSS content.
 
+Capture the exact model identifier from the drafting run's metadata when saving the manuscript, and note the evidence in `model_identity_source`. Keep any private run reference in the series ledger. Record substantive AI-assisted revisions separately in `ai_revisions`, including the revision model and date. If the drafting run's model cannot be verified, record `model: null` and describe the evidence available in the private draft. Resolve the identifier before publication preparation. Editorial validation requires an explicit model identifier and source field for posts dated November 19, 2026 or later.
+
 ## Newsletter identity and reader navigation
 
 Each series has its own masthead, audience description, visual accent, and landing page. The landing page features its latest issue and names the previous issues, while keeping a clear link to the other newsletter.

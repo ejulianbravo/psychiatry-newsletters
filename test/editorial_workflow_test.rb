@@ -61,6 +61,19 @@ def output(destination)
 end
 
 checks = {
+  "New issues require an exact drafting model and its source" => lambda {
+    fixture do |root, _site|
+      date = Date.iso8601(Editorial::PROVENANCE_REQUIRED_FROM)
+      [nil, { "model" => nil, "model_identity_source" => "Unavailable" },
+       { "model" => "recorded-model", "model_identity_source" => " " }].each do |generation|
+        issue(root, "provenance", date: date, generation: generation)
+        rejects("record the exact AI model") { Editorial.validate!(root) }
+      end
+      path = issue(root, "provenance", date: date,
+                   generation: { "model" => "recorded-model", "model_identity_source" => "Drafting run metadata" })
+      assert(Editorial.validate!(root).include?(path), "Verified model metadata was rejected")
+    end
+  },
   "1. Private drafts stay out of the build and cannot be tracked" => lambda {
     fixture do |root, site|
       %w[_drafts editorial].each do |folder|
@@ -168,7 +181,8 @@ checks = {
       first = issue(root, "psychosis-first", date: Date.new(2020, 1, 1), body: "FIRST_SERIES_ISSUE")
       latest = issue(root, "psychosis-latest", date: Date.new(2020, 1, 3), body: "LATEST_SERIES_ISSUE")
       issue(root, "landmark-only", series: "landmark-psychiatry-papers", date: Date.new(2020, 1, 2))
-      issue(root, "future-issue", date: Date.new(2100, 1, 1), body: "FUTURE_ISSUE_SENTINEL")
+      issue(root, "future-issue", date: Date.new(2100, 1, 1), body: "FUTURE_ISSUE_SENTINEL",
+            generation: { "model" => "recorded-model", "model_identity_source" => "Drafting run metadata" })
       FileUtils.mkdir_p(File.join(root, "_drafts"))
       File.write(File.join(root, "_drafts/private.md"), "PRIVATE_LATEST_SENTINEL")
       originals = [first, latest].to_h { |path| [path, File.binread(path)] }

@@ -39,7 +39,7 @@ The two series have separate archives and selection records. A paper can be rele
 
 AI tools assist with literature searches, paper selection, summaries, comparisons, and initial drafting. They may also help with formatting and the publishing workflow. Their output can contain inaccurate references, numerical errors, omissions, or interpretations that the original research does not support. Linked sources let readers examine the underlying evidence.
 
-For new issues, the source metadata records the AI provider, exact model identifier, interface, generation date, and role of AI when those details can be verified. The issue footer displays the recorded model and generation date. Models may change between issues, so there is no single model version attributed to the entire archive. Older editions without recorded model details are identified as such; those details are not reconstructed by guesswork.
+New issues record the exact drafting model and the source used to verify it. The source metadata also records the AI provider, interface, generation date, and role when verified. The issue footer displays the original drafting provenance and any recorded AI-assisted revisions. Older editions disclose the level of model detail available in their records.
 
 Generation and publication dates have different meanings. Recording how a draft was made does not establish that its claims are correct or that editorial review is complete.
 
