@@ -65,7 +65,17 @@ Use these permanent destinations for reusable QR codes once this website version
 
 Their destinations are selected during the normal validated build and advance only when the website is deliberately published. Drafts and future-dated editions are excluded. An empty series falls back to its own landing page. A QR code tied to a particular edition should use that edition's permanent article URL instead.
 
-The latest-issue redirects preserve only the standard `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, and `utm_term` campaign parameters. With JavaScript disabled they still open the correct issue, but do not preserve the incoming campaign tags. These redirect pages do not load analytics; visitor analytics has not yet been configured. Future counting should occur on the destination issue to avoid counting the redirect as a second visit.
+The latest-issue redirects preserve only the standard `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, and `utm_term` campaign parameters. With JavaScript disabled they still open the correct issue, but do not preserve the incoming campaign tags. These redirect pages do not load analytics; counting occurs on the destination issue to avoid counting the redirect as a second visit.
+
+## Basic visitor analytics
+
+The initial analytics choice is Umami Cloud's free Hobby plan, with both newsletters registered as one website at `psychiatrypapers.org`. Its public tracking details are in `analytics.umami.website_id` and `analytics.umami.script_url` in `_config.yml`. Empty values disable the integration. Obtain both public values from the actual site's tracking snippet; do not put account passwords or API keys in this repository.
+
+Once configured and deliberately published, the shared site layout loads the tracker only in a build for `https://psychiatrypapers.org`; its domain restriction prevents recording local preview hosts. Events use the newsletter slug as a tag, with `site` for general pages. Latest-issue and legacy redirects remain untracked. Existing QR codes use `utm_source=qr`; group-specific codes can add stable identifiers in `utm_content` without changing the latest-issue destination.
+
+Before enabling collection, add an accurate analytics explanation to About, run all validation commands below, and inspect the exact integration. After deliberate publication, verify a normal pageview and QR-tagged arrival in the real dashboard. A build or test with fixture identifiers does not establish live collection.
+
+The free plan currently retains six months of analytics. Preserve dated monthly exports through Umami Cloud's **Settings → Data → Export** for longer-term reporting. Hobby has no API access, so automatic API exports are not part of this initial setup. Keep usage definitions and QR group mappings privately with the exports. Self-hosting remains a later option; do not assume CSV exports can be reimported as native history into a future self-hosted database without checking compatibility.
 
 ## Validation without publication
 
@@ -89,6 +99,7 @@ The tests use temporary repositories and local builds to check:
 4. Reviewed corrections replace the issue at the same address, while deployment remains manually gated.
 5. Latest-issue shortcuts advance with publication, named previous/next links stay within their series, and future/private issues stay out of reader navigation.
 6. Empty and first-issue series work at the custom-domain root without inventing previous editions.
+7. Analytics stays disabled without account configuration and in non-production-origin builds; a configured production build labels each series, includes one tracker per content page and excludes redirect pages.
 
 These are local end-to-end build tests, not live deployments. The final live verification still happens after you explicitly publish. Validation alone does not make a required merge check; configure branch protection separately if you want GitHub to prevent merging a failed check.
 

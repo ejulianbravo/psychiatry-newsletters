@@ -57,6 +57,12 @@ As editor and publisher, **I assume editorial responsibility for each published 
 
 Substantive corrections should be identified on the affected issue, with the correction date and a clear account of what changed. The corrected version should undergo review before republication, and the issue's address should remain stable where possible. Readers can report a suspected error through the [project's GitHub issue tracker](https://github.com/ejulianbravo/psychiatry-newsletters/issues). Please do not include personal health information in a public report.
 
+## Visitor analytics
+
+We use Umami Cloud to understand visits to the newsletters, which issues are opened, and which sharing links bring readers here. The tracker records page and referrer information, browser/device information, approximate location, and estimated visitor counts without setting analytics cookies. QR identifiers describe distribution routes; they are not assigned to individual readers.
+
+The current free hosting plan retains analytics for six months. We may preserve dated aggregate summaries for longer-term reporting on the newsletters' dissemination. Recorded visits and pageviews do not establish that each article was read. See [Umami's privacy policy](https://umami.is/privacy) for information about its processing.
+
 ## Educational scope
 
 These newsletters provide education and critical discussion. They are not individualized clinical advice, comprehensive evidence reviews, or substitutes for current clinical guidance and professional judgment. A historical study may be important without establishing the best treatment for a particular person today.

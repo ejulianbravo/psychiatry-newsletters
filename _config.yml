@@ -31,6 +31,13 @@ theme: minima
 plugins:
   - jekyll-feed
 
+# Copy these public values from the website's Umami Cloud tracking snippet.
+# Empty values leave analytics disabled until the account setup is complete.
+analytics:
+  umami:
+    website_id: "a387c83e-2485-4d70-8d58-f2e865e5dbad"
+    script_url: "https://cloud.umami.is/script.js"
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

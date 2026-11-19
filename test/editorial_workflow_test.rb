@@ -232,6 +232,48 @@ checks = {
       assert(redirect.include?('data-latest-target="/2020/01/01/first-and-latest.html"'), "Custom-domain shortcut has a stale project subpath")
       assert(redirect.include?('href="https://psychiatrypapers.org/2020/01/01/first-and-latest.html"'), "Latest canonical URL has the wrong origin")
     end
+  },
+  "7. Analytics requires account configuration and counts content pages only" => lambda {
+    fixture do |root, site|
+      issue(root, "analytics-psychosis")
+      issue(root, "analytics-landmark", series: "landmark-psychiatry-papers")
+      config_path = File.join(root, "_config.yml")
+      config = YAML.safe_load_file(config_path)
+      config["analytics"] = { "umami" => { "website_id" => "", "script_url" => "" } }
+      File.write(config_path, YAML.dump(config))
+      build(root, site, origin: "https://psychiatrypapers.org", base_path: "")
+      assert(!output(site).include?("data-website-id="), "Unconfigured analytics must not load a tracker")
+
+      # These reserved fixture values never contact a real analytics collector.
+      config["analytics"]["umami"] = {
+        "website_id" => "00000000-0000-4000-8000-000000000001",
+        "script_url" => "https://analytics.example.invalid/script.js"
+      }
+      File.write(config_path, YAML.dump(config))
+      build(root, site, origin: "https://psychiatrypapers.org", base_path: "")
+      {
+        "2020/01/01/analytics-psychosis.html" => "psychosis-psychoeducation",
+        "2020/01/01/analytics-landmark.html" => "landmark-psychiatry-papers",
+        "psychosis-psychoeducation/index.html" => "psychosis-psychoeducation",
+        "landmark-psychiatry-papers/index.html" => "landmark-psychiatry-papers",
+        "index.html" => "site", "about/index.html" => "site"
+      }.each do |path, newsletter|
+        html = File.read(File.join(site, path))
+        assert(html.scan("data-website-id=").size == 1, "Expected one tracker on #{path}")
+        assert(html.include?(%(data-tag="#{newsletter}")), "Wrong newsletter analytics tag on #{path}")
+        assert(html.include?('data-domains="psychiatrypapers.org"') && html.include?("<script defer"), "Tracker must restrict collection to the production host and defer loading")
+      end
+      %w[psychosis/latest/index.html landmarks/latest/index.html psychosis/index.html landmarks/index.html].each do |path|
+        assert(!File.read(File.join(site, path)).include?("data-website-id="), "Redirect #{path} would create an extra analytics hit")
+      end
+
+      build(root, site)
+      assert(!output(site).include?("data-website-id="), "Non-production origin must not load the configured tracker")
+      config["analytics"]["umami"]["script_url"] = ""
+      File.write(config_path, YAML.dump(config))
+      build(root, site, origin: "https://psychiatrypapers.org", base_path: "")
+      assert(!output(site).include?("data-website-id="), "Partial account configuration must not enable collection")
+    end
   }
 }
 
