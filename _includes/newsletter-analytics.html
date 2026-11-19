@@ -1,0 +1,4 @@
+{% assign umami = site.analytics.umami %}
+{% if site.url == 'https://psychiatrypapers.org' and umami.website_id != nil and umami.website_id != '' and umami.script_url != nil and umami.script_url != '' %}
+<script defer src="{{ umami.script_url | escape }}" data-website-id="{{ umami.website_id | escape }}" data-domains="psychiatrypapers.org" data-tag="{{ include.newsletter | default: 'site' | escape }}"></script>
+{% endif %}
