@@ -4,9 +4,9 @@ title: "Care within reach today, support for the long run"
 date: 2026-11-24
 newsletter: psychosis-psychoeducation
 description: "Bringing care to the person, improving daily life, and building sustainable support for an uncertain course."
-editorial_status: approved
+editorial_status: published
 approved: true
-published: false
+published: true
 ai_generation:
   provider: OpenAI
   model: gpt-6.1-sol
