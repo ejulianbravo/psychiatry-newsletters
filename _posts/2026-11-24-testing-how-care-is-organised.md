@@ -4,9 +4,9 @@ title: "Testing how care is organised"
 date: 2026-11-24
 newsletter: landmark-psychiatry-papers
 description: "What IMPACT, TEAMcare, and CADET reveal about reorganising care, measuring benefit, and identifying what makes a treatment package work."
-editorial_status: approved
+editorial_status: published
 approved: true
-published: false
+published: true
 ai_generation:
   provider: OpenAI
   model: gpt-6.1-sol
