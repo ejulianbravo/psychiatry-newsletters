@@ -53,6 +53,10 @@ Publication currently requires a separate, deliberate manual action. Generating 
 
 ## My editorial responsibility
 
+### Editor
+
+Edward Bravo, MD, is a psychiatrist practising in Ontario, Canada, and the editor and publisher of these newsletters.
+
 As editor and publisher, **I assume editorial responsibility for each published issue**, including the final wording, source verification, interpretations, and corrections. AI assistance does not transfer that responsibility to the model or its provider. Neither the use of AI nor this project's experimental nature excuses errors in the published work.
 
 Substantive corrections should be identified on the affected issue, with the correction date and a clear account of what changed. The corrected version should undergo review before republication, and the issue's address should remain stable where possible. Readers can report a suspected error through the [project's GitHub issue tracker](https://github.com/ejulianbravo/psychiatry-newsletters/issues). Please do not include personal health information in a public report.

@@ -77,6 +77,23 @@ Before enabling collection, add an accurate analytics explanation to About, run 
 
 The free plan currently retains six months of analytics. Preserve dated monthly exports through Umami Cloud's **Settings → Data → Export** for longer-term reporting. Hobby has no API access, so automatic API exports are not part of this initial setup. Keep usage definitions and QR group mappings privately with the exports. Self-hosting remains a later option; do not assume CSV exports can be reimported as native history into a future self-hosted database without checking compatibility.
 
+## Search visibility plan
+
+| Priority | Work | Status |
+| --- | --- | --- |
+| 1 | Canonical page URLs, sitemap, crawler instructions, sharing metadata, and structured data | Implemented in source; requires review and deliberate publication |
+| 2 | Verify `psychiatrypapers.org` in Google Search Console and submit `/sitemap.xml` | After publication; requires access to the owner's Google account and domain verification |
+| 3 | Expand the editor profile with verified academic links and ORCID | Basic editor identity added; additional links still to verify |
+| 4 | Prepare a reusable framework and choose explicit code/content licences | Separate follow-up; public repository visibility does not grant a reuse licence |
+
+The shared `newsletter-seo.html` include adds canonical links, Open Graph and Twitter card metadata. Approved issue pages describe themselves as `BlogPosting`, with their original publication dates and Edward Bravo identified as **editor**. It does not invent an author, modification date, image, or drafting provenance. The homepage has `WebSite` structured data.
+
+`sitemap.xml` lists content pages and eligible approved issues. Redirects, the error page, feeds, private drafts, and future issues stay out. New redirect or utility pages should declare `sitemap: false`; new content pages are included automatically. `robots.txt` points to the sitemap. Both use the origin and base path supplied by the validated build, so local configuration does not need a production hostname.
+
+After deliberate publication, check the live sitemap, crawler instructions, canonical URLs, and article metadata. Then submit the sitemap in Search Console, inspect the homepage and a recent issue, and monitor indexing, impressions, and clicks. These source changes do not verify Search Console ownership, submit anything to Google, establish indexing, or guarantee a ranking change.
+
+References: [Google's sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview), [article structured data](https://developers.google.com/search/docs/appearance/structured-data/article), and [page descriptions](https://developers.google.com/search/docs/appearance/snippet).
+
 ## Validation without publication
 
 Pull requests and pushes to `main` run **Validate editorial workflow**. It checks metadata and tracked private files, tests the editorial and reader-navigation scenarios below, and builds the site. It has read-only repository permissions and does not upload a Pages artifact or deploy.
@@ -100,6 +117,7 @@ The tests use temporary repositories and local builds to check:
 5. Latest-issue shortcuts advance with publication, named previous/next links stay within their series, and future/private issues stay out of reader navigation.
 6. Empty and first-issue series work at the custom-domain root without inventing previous editions.
 7. Analytics stays disabled without account configuration and in non-production-origin builds; a configured production build labels each series, includes one tracker per content page and excludes redirect pages.
+8. Search metadata and sitemap URLs match at the custom-domain root and a project subpath; redirects, error pages, drafts, and future issues stay out of the sitemap, and structured data safely handles quoted text and HTML-like titles.
 
 These are local end-to-end build tests, not live deployments. The final live verification still happens after you explicitly publish. Validation alone does not make a required merge check; configure branch protection separately if you want GitHub to prevent merging a failed check.
 

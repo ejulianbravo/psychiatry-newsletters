@@ -1,0 +1,22 @@
+---
+layout: null
+permalink: /sitemap.xml
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for item in site.pages %}
+  {% assign extension = item.url | split: '.' | last %}
+  {% assign last_character = item.url | slice: -1, 1 %}
+  {% if item.sitemap != false %}
+    {% if last_character == '/' or extension == 'html' %}
+  <url><loc>{{ item.url | absolute_url | xml_escape }}</loc></url>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% for issue in site.posts %}
+  {% if issue.approved == true and issue.sitemap != false %}
+  <url><loc>{{ issue.url | absolute_url | xml_escape }}</loc></url>
+  {% endif %}
+{% endfor %}
+</urlset>

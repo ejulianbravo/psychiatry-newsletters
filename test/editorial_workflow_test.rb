@@ -5,6 +5,8 @@ require "fileutils"
 require "tmpdir"
 require "open3"
 require "rbconfig"
+require "json"
+require "cgi"
 require_relative "../scripts/editorial"
 
 ROOT = File.expand_path("..", __dir__)
@@ -231,6 +233,71 @@ checks = {
       redirect = File.read(File.join(site, "psychosis/latest/index.html"))
       assert(redirect.include?('data-latest-target="/2020/01/01/first-and-latest.html"'), "Custom-domain shortcut has a stale project subpath")
       assert(redirect.include?('href="https://psychiatrypapers.org/2020/01/01/first-and-latest.html"'), "Latest canonical URL has the wrong origin")
+    end
+  },
+  "8. Search metadata and sitemap describe indexable content at either site origin" => lambda {
+    fixture do |root, site|
+      FileUtils.rm_rf(File.join(root, "_posts"))
+      FileUtils.mkdir_p(File.join(root, "_posts"))
+      path = issue(root, "search-psychosis")
+      title = 'Evidence "quoted" & context </script><script>UNSAFE_SCRIPT</script>'
+      description = 'A specific description with "quotes" & clear context.'
+      data = Editorial.metadata(path).merge("title" => title, "description" => description)
+      File.write(path, YAML.dump(data) + "---\n\nSEARCH_CONTENT_SENTINEL\n")
+      original = File.binread(path)
+      issue(root, "search-landmark", series: "landmark-psychiatry-papers")
+      issue(root, "future-search-issue", date: Date.new(2999, 1, 1),
+            generation: { "model" => "recorded-model", "model_identity_source" => "Fixture" })
+      draft = issue(root, "private-search-draft", status: "draft")
+      FileUtils.mkdir_p(File.join(root, "_drafts"))
+      FileUtils.mv(draft, File.join(root, "_drafts", File.basename(draft)))
+
+      [["https://psychiatrypapers.org", ""],
+       ["https://example.github.io", "/psychiatry-newsletters"]].each do |origin, base_path|
+        build(root, site, origin: origin, base_path: base_path)
+        prefix = origin + base_path
+        indexable = {
+          "index.html" => "/", "about/index.html" => "/about/",
+          "psychosis-psychoeducation/index.html" => "/psychosis-psychoeducation/",
+          "landmark-psychiatry-papers/index.html" => "/landmark-psychiatry-papers/",
+          "2020/01/01/search-psychosis.html" => "/2020/01/01/search-psychosis.html",
+          "2020/01/01/search-landmark.html" => "/2020/01/01/search-landmark.html"
+        }
+        indexable.each do |file, url|
+          html = File.read(File.join(site, file))
+          assert(html.scan("<title>").size == 1, "Duplicate or missing title on #{file}")
+          assert(html.scan('name="description"').size == 1, "Duplicate or missing description on #{file}")
+          assert(html.scan('rel="canonical"').size == 1 && html.include?(%(rel="canonical" href="#{prefix}#{url}")), "Incorrect canonical URL on #{file}")
+          assert(html.include?(%(property="og:url" content="#{prefix}#{url}")), "Incorrect sharing URL on #{file}")
+          assert(html.include?('name="twitter:card" content="summary"'), "Missing sharing metadata on #{file}")
+        end
+
+        article = File.read(File.join(site, "2020/01/01/search-psychosis.html"))
+        json_blocks = article.scan(%r{<script type="application/ld\+json">(.*?)</script>}m).flatten
+        assert(json_blocks.size == 1, "Expected exactly one article schema")
+        schema = JSON.parse(json_blocks.first)
+        assert(schema["@type"] == "BlogPosting" && schema["headline"] == title, "Article schema lost its type or escaped title")
+        assert(schema["description"] == description, "Article schema lost the issue description")
+        assert(schema["url"] == "#{prefix}/2020/01/01/search-psychosis.html", "Incorrect article schema URL")
+        assert(schema.dig("isPartOf", "url") == "#{prefix}/psychosis-psychoeducation/", "Article schema mixed newsletter identities")
+        assert(schema.dig("editor", "name") == "Edward Bravo" && schema.dig("editor", "url") == "#{prefix}/about/#editor", "Editor identity or URL missing")
+        assert(!schema.key?("author") && !schema.key?("dateModified"), "Schema invented authorship or a modification date")
+        assert(!article.include?("<script>UNSAFE_SCRIPT"), "JSON-LD allowed an injected script element")
+        assert(article.include?(%(name="description" content="#{CGI.escapeHTML(description)}")), "Description is not escaped for HTML")
+        assert(File.read(File.join(site, "about/index.html")).include?('id="editor"'), "Editor profile link has no target")
+        home = File.read(File.join(site, "index.html"))
+        home_schema = JSON.parse(home.match(%r{<script type="application/ld\+json">(.*?)</script>}m)[1])
+        assert(home_schema["@type"] == "WebSite" && home_schema["url"] == "#{prefix}/", "Homepage schema missing or incorrect")
+
+        sitemap = File.read(File.join(site, "sitemap.xml"))
+        assert(sitemap.start_with?('<?xml version="1.0"'), "Sitemap must begin with its XML declaration")
+        urls = sitemap.scan(%r{<loc>(.*?)</loc>}).flatten
+        assert(urls.sort == indexable.values.map { |url| prefix + url }.sort, "Sitemap includes noncanonical, private, future, or missing URLs: #{urls}")
+        robots = File.read(File.join(site, "robots.txt"))
+        assert(robots.include?("User-agent: *\nAllow: /") && robots.include?("Sitemap: #{prefix}/sitemap.xml"), "Crawler instructions have the wrong sitemap URL")
+        assert(File.read(File.join(site, "404.html")).include?('name="robots" content="noindex, follow"'), "Error page must not be indexed")
+        assert(File.binread(path) == original, "Search build changed reviewed issue source")
+      end
     end
   },
   "7. Analytics requires account configuration and counts content pages only" => lambda {
