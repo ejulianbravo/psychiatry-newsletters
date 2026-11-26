@@ -1,5 +1,6 @@
 ---
 layout: null
+sitemap: false
 permalink: /psychosis/
 ---
 <!doctype html>

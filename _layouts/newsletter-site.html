@@ -4,8 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if current_series %}{% if page.title and page.title != current_series.title %}{{ page.title | escape }} · {% endif %}{{ current_series.title | escape }}{% else %}{% if page.title %}{{ page.title | escape }} · {% endif %}{{ site.title | escape }}{% endif %}</title>
-  <meta name="description" content="{{ page.description | default: current_series.description | default: site.description | escape }}">
+  {% include newsletter-seo.html %}
   <link rel="stylesheet" href="{{ '/assets/newsletters.css' | relative_url }}">
   {% include newsletter-analytics.html newsletter=current_series.slug %}
 </head>

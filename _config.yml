@@ -20,11 +20,15 @@
 
 title: "Psychiatry Papers & Perspectives"
 description: >- # this means to ignore newlines until "baseurl:"
-  Evidence, history, and clinical perspectives in psychiatry.
+  Landmark psychiatry papers and psychosis psychoeducation: research, critical
+  appraisal, and practical perspectives for clinicians, families, and caregivers.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: eldoctorbravo
 github_username:  ejulianbravo
+editor:
+  name: Edward Bravo
+  url: /about/#editor
 
 # Build settings
 theme: minima
