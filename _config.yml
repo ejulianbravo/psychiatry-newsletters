@@ -68,6 +68,8 @@ analytics:
 # Keep editorial materials out of the generated website.
 exclude:
   - editorial
+  - AGENTS.md
+  - .agents
 defaults:
   - scope:
       path: ""

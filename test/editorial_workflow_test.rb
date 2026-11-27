@@ -84,7 +84,7 @@ checks = {
       end
       build(root, site)
       assert(!output(site).include?("PRIVATE_DRAFT_SENTINEL"), "Private text leaked")
-      %w[_drafts editorial scripts test].each { |folder| assert(!File.exist?(File.join(site, folder)), "Leaked #{folder}") }
+      %w[_drafts editorial scripts test AGENTS.md].each { |folder| assert(!File.exist?(File.join(site, folder)), "Leaked #{folder}") }
       _, error, result = Open3.capture3("git", "-C", root, "add", "_drafts", "editorial")
       assert(result.success?, error)
       rejects("Private/generated files are tracked") { Editorial.validate!(root) }
@@ -140,7 +140,7 @@ checks = {
       assert(feed.include?("PSYCHOSIS_APPROVED_SENTINEL") && feed.include?("LANDMARK_APPROVED_SENTINEL"), "Approved issues missing from feed")
       assert(feed.include?("https://example.github.io/psychiatry-newsletters/"), "Incorrect feed URL")
       about = File.read(File.join(site, "about/index.html"))
-      assert(about.include?("Jekyll-based publishing experiment") && about.include?("I assume editorial responsibility"), "About page missing project scope or responsibility")
+      assert(about.include?("knowledge translation") && about.include?("Edward Bravo, MD"), "About page missing project scope or editor")
       ["PSYCHOSIS_APPROVED_SENTINEL", "LANDMARK_APPROVED_SENTINEL"].each do |marker|
         article = Dir.glob(File.join(site, "2020", "**", "*.html")).map { |p| File.read(p) }.find { |html| html.include?(marker) }
         assert(article && article.scan('class="issue-disclosure"').length == 1, "Each series needs exactly one disclosure footer")

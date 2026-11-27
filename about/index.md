@@ -1,65 +1,78 @@
 ---
 layout: newsletter-site
 title: About and editorial policy
-description: "A Jekyll-based experiment in newsletter automation and AI-assisted scholarly output, with human editorial responsibility."
+description: "Psychiatric knowledge translation, publishing automation, and practical work with LLM agents, built on GitHub Pages and Jekyll."
 permalink: /about/
 ---
 
 <article class="issue-body about-page" markdown="1">
 
-# About this newsletter experiment
+# About Psychiatry Papers & Perspectives
 
-**Psychiatry Papers & Perspectives** is a Jekyll-based publishing experiment testing the capacity of large language models (LLMs) to help create a newsletter, build its website, and support a repeatable publication workflow. It explores the whole process: finding and discussing research, preparing a manuscript, organizing an accessible archive, and moving an approved version into publication.
+**Psychiatry Papers & Perspectives** brings together psychiatric knowledge translation, publishing automation, and practical work with large language model (LLM) agents. The project develops a repeatable route from original research to reviewed newsletters and a public website, built on **GitHub Pages and Jekyll**.
 
-The intention is to understand how much of this work LLMs can perform usefully, where they need correction or supervision, and how their contributions can be made transparent. Newsletter writing and site building provide a practical setting in which to examine those questions together. The resulting scholarly output is also a way to assess the process: its usefulness depends on the quality of the evidence, interpretation, presentation, and editorial decisions behind it.
+Building the publishing system is a substantial part of the project's purpose. I am interested in how LLM agents can help sustain a publication over time: finding evidence, preparing drafts, writing and maintaining software, checking changes, and carrying a reviewed version through to publication. The newsletters put that work into practice, translating psychiatric research for different audiences.
 
-## What the project is trying to achieve
+## An experiment in publishing and automation
 
-The project has three connected aims:
+The technical work is an ongoing experiment in combining LLM agents, reusable instructions, and software tools into a working publication pipeline. It is also a way to develop practical skills in coding, version control, automated testing, web design, and troubleshooting. Each issue gives me a reason to improve the system and see where it still needs attention.
 
-- **Test LLM-assisted creation and automation.** Explore how reliably an LLM can help research and draft recurring issues, create and maintain the website, and carry out routine publishing tasks. Recording the model and its role makes that contribution visible as tools and methods change.
-- **Make psychiatric research easier to access.** Bring influential papers, clear explanations, critical appraisal, and links to original sources into a website where readers can easily find the current issue and earlier editions. The two newsletters adapt the discussion to different audiences while retaining methodological substance and uncertainty.
-- **Develop a reliable publication pipeline with editorial control.** Reduce repeated copying, formatting, and technical troubleshooting through a consistent sequence of drafting, review, approval, building, publication, and live verification. Decisions about what to publish, how to interpret the evidence, and when a version is ready remain with the editor.
+LLM agents contribute to both the scholarly and technical work. They help research and draft issues, build page layouts and navigation, write validation code, investigate failures, and document repeatable procedures. Project instructions and task-specific skills give those agents a consistent starting point. Separate paper histories help avoid repetition within each newsletter, and review records connect editorial decisions to particular manuscript versions.
 
-Success would mean that the process can be repeated across issues without losing sources, provenance, approved wording, or control over publication. A reliable pipeline should make the status of an issue clear, carry the reviewed version into the correct archive, and support traceable corrections. Producing text quickly or building a working page is only part of that goal.
+The aim is to reduce repetitive work while keeping sources, revisions, and publication decisions traceable. Reliability develops through repeated use, inspection, and correction; the workflow continues to evolve as the tools and my understanding of them change.
 
-This is an exploratory publishing project, not a completed demonstration that LLMs can independently produce trustworthy scholarship. The aim is to learn from the work required to make each issue accurate, useful, accessible, and ready for publication, including the errors and limitations encountered along the way.
+## How the publication pipeline works
 
-Jekyll provides the website-building step: it turns reviewed Markdown files into pages and archives. It does not select evidence, validate references, or make clinical judgments. Automated checks and human editorial review have distinct roles within the same process.
+Manuscripts are written in Markdown, and Jekyll turns them into a static website with shared layouts, issue pages, and separate newsletter archives. GitHub keeps the website source under version control, GitHub Actions runs validation and the publishing workflow, and GitHub Pages hosts the resulting website.
+
+The pipeline connects four stages:
+
+1. **Research and drafting.** Recurring agent tasks use the project's editorial instructions and each newsletter's paper history to prepare work for review. Original sources, access limits, and drafting details are recorded alongside the manuscript.
+2. **Editorial review.** Drafts stay private while sources and interpretations are checked and the text is revised. Approval belongs to a specific manuscript version. AI model and generation records are kept separately from publication dates.
+3. **Automated validation.** Ruby checks and local build tests examine editorial metadata, private-file exclusions, newsletter archives, navigation, and other publishing behaviour. GitHub Actions also runs validation on proposed source changes.
+4. **Publication and verification.** A separate manual workflow builds the reviewed content and publishes it through GitHub Pages. The live website is then checked before an issue is recorded as published.
+
+This structure lets routine preparation and checking be automated while keeping the decision to publish deliberate. It also supports corrections, stable issue addresses, and permanent links to each newsletter's latest edition. The website source and publishing workflows are available in the [project's GitHub repository](https://github.com/ejulianbravo/psychiatry-newsletters). Drafts and private editorial records remain outside it.
+
+## Founding editor {#editor}
+
+**Edward Bravo, MD**, is a psychiatrist practising in Ontario, Canada, and the founding editor and publisher of Psychiatry Papers & Perspectives.
+
+As editor, I select the material, review the sources and final text, decide when an issue is ready to publish, and handle corrections and reader feedback. This is an independent personal project; its content does not represent the official positions of my employers or affiliated institutions.
 
 ## Two newsletters, two audiences
 
-**[Landmark Psychiatry Papers]({{ '/landmark-psychiatry-papers/' | relative_url }})** examines influential research for clinicians and curious readers, with attention to methodology, limitations, and historical significance.
+The two newsletters form an independent educational publication for clinicians, people with lived experience, families, caregivers, and curious readers. Both aim to make research easier to understand and to help readers engage with the original evidence.
 
-**[Psychosis Psychoeducation]({{ '/psychosis-psychoeducation/' | relative_url }})** translates research into accessible discussion for families, caregivers, and clinicians supporting people experiencing psychosis.
+**[Landmark Psychiatry Papers]({{ '/landmark-psychiatry-papers/' | relative_url }})** examines influential research for clinicians and curious readers, with attention to methodology, limitations, and historical significance. It considers how findings have shaped psychiatric thinking and how they should be understood alongside later evidence.
+
+**[Psychosis Psychoeducation]({{ '/psychosis-psychoeducation/' | relative_url }})** translates research into accessible discussion for people experiencing psychosis, their families and caregivers, and the clinicians supporting them. It connects findings with practical questions for understanding care and recovery.
 
 The two series have separate archives and selection records. A paper can be relevant to both audiences; known overlap should be disclosed rather than mistaken for a new selection within the same series.
 
-## How AI is used and recorded
+## How papers are selected and discussed
 
-AI tools assist with literature searches, paper selection, summaries, comparisons, and initial drafting. They may also help with formatting and the publishing workflow. Their output can contain inaccurate references, numerical errors, omissions, or interpretations that the original research does not support. Linked sources let readers examine the underlying evidence.
+Selection considers a study's scientific or clinical influence, methodological contribution, and relevance to the newsletter's audience. Historical importance remains central to the Landmark series; recent research can help readers understand how the evidence has developed. Each issue presents a selection of papers, rather than a comprehensive or systematic review.
 
-New issues record the exact drafting model and the source used to verify it. The source metadata also records the AI provider, interface, generation date, and role when verified. The issue footer displays the original drafting provenance and any recorded AI-assisted revisions. Older editions disclose the level of model detail available in their records.
+Full-text verification is required for new appraisals: reading the complete original articles, verifying references and important numerical claims, examining methods and limitations, and checking for corrections or retractions. Missing full text or essential supporting material leaves an appraisal incomplete.
 
-Generation and publication dates have different meanings. Recording how a draft was made does not establish that its claims are correct or that editorial review is complete.
+References link to original publications through publisher, DOI, or PubMed records. Some full texts require a subscription or institutional access. Linking a paper does not mean that its full text is freely available.
 
-## Review, approval, and publication
+Appraisals should distinguish study findings, editorial interpretation, and current clinical guidance, and explain what a study does and does not establish. This is especially important when discussing treatment alternatives: a finding about a selected group does not by itself establish that a treatment should be stopped or replaced. Historical influence and clinical relevance are considered separately.
 
-The editorial process is intended to check citations against original sources, distinguish findings from interpretation, consider corrections and retractions, and identify access limitations. Historical findings should be separated from contemporary clinical recommendations. These checks reduce the risk of error but cannot eliminate it.
+## Recording AI use
 
-Drafts and private editorial records stay outside the public source repository. A specific version must receive editorial approval before entering the publication process. Automated checks test metadata consistency and whether the website builds; they do not replace scientific appraisal or certify that a person has reviewed the text.
+AI-generated text can contain inaccurate references, numerical errors, omissions, or interpretations that the original research does not support. Reviewing it against the original sources is part of the editorial work.
 
-Publication currently requires a separate, deliberate manual action. Generating a draft or changing the repository does not automatically publish a newsletter. An issue is recorded as published only after its live version has been checked.
+New issues record the exact drafting model and the source used to verify it, together with the provider, interface, generation date, and role when verified. The issue footer displays the original drafting provenance and any recorded AI-assisted revisions. Older editions disclose the level of model detail available in their records; missing details are not inferred from later issues.
 
-## My editorial responsibility
+These records help readers understand how an issue was prepared. Source verification, scientific appraisal, and the decision to publish require their own review; automated build checks address the operation of the publishing system.
 
-### Editor
+## Corrections and feedback
 
-Edward Bravo, MD, is a psychiatrist practising in Ontario, Canada, and the editor and publisher of these newsletters.
+Readers can report a suspected error or suggest an improvement through the [project's GitHub issue tracker](https://github.com/ejulianbravo/psychiatry-newsletters/issues). Please identify the issue and passage concerned and, where possible, link the supporting source. The tracker is public; do not include personal health information.
 
-As editor and publisher, **I assume editorial responsibility for each published issue**, including the final wording, source verification, interpretations, and corrections. AI assistance does not transfer that responsibility to the model or its provider. Neither the use of AI nor this project's experimental nature excuses errors in the published work.
-
-Substantive corrections should be identified on the affected issue, with the correction date and a clear account of what changed. The corrected version should undergo review before republication, and the issue's address should remain stable where possible. Readers can report a suspected error through the [project's GitHub issue tracker](https://github.com/ejulianbravo/psychiatry-newsletters/issues). Please do not include personal health information in a public report.
+Substantive corrections should be identified on the affected issue, with the correction date and a clear account of what changed. The corrected version requires review before republication, and the issue's address should remain stable where possible. Source checks and editorial review reduce the risk of error but cannot eliminate it.
 
 ## Visitor analytics
 
@@ -71,6 +84,6 @@ The current free hosting plan retains analytics for six months. We may preserve 
 
 These newsletters provide education and critical discussion. They are not individualized clinical advice, comprehensive evidence reviews, or substitutes for current clinical guidance and professional judgment. A historical study may be important without establishing the best treatment for a particular person today.
 
-The short disclosure on each website issue keeps AI use, available provenance, educational limits, and editorial responsibility close to the text. This page supplies the fuller explanation of the project and its process.
+Each issue includes a short account of AI assistance and the available drafting and revision details, with a link back to this page.
 
 </article>
