@@ -13,6 +13,9 @@
 <title>{{ seo_title | escape }}</title>
 <meta name="description" content="{{ seo_description | escape }}">
 <link rel="canonical" href="{{ seo_url | escape }}">
+{% if page.url == '/' and site.url == 'https://psychiatrypapers.org' and site.google_site_verification != blank %}
+<meta name="google-site-verification" content="{{ site.google_site_verification | escape }}">
+{% endif %}
 {% if page.robots %}<meta name="robots" content="{{ page.robots | escape }}">
 {% elsif page.layout == 'newsletter-issue' and page.approved != true %}<meta name="robots" content="noindex, follow">
 {% endif %}
