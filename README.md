@@ -6,7 +6,19 @@ Two Jekyll newsletters: Landmark Psychiatry Papers and Psychosis Psychoeducation
 
 Use the existing rbenv Ruby 3.4.12 and run `bundle exec jekyll serve`.
 
+## Repeatable editorial work
+
+`AGENTS.md` holds the standing project rules. Repository skills in `.agents/skills/` cover Landmark drafting (`landmark-newsletter`), Psychosis drafting (`psychosis-newsletter`), and shared approval preparation and publication (`publish-newsletter`). These follow the repository-local structure described in [OpenAI's skill guidance](https://developers.openai.com/blog/skills-agents-sdk). Start a new project chat to discover the added skills; AGENTS.md also links their files directly.
+
+The authoritative private ledgers live in `editorial/<newsletter>/paper-ledger.json`. Preserve partial-history warnings and reconstruct missing history from genuine issues before selecting new papers. Review exports are copies, not independent ledgers. Record the manuscript path and SHA-256 with editorial approval so later revisions cannot silently inherit it.
+
+For example: “Prepare the next Landmark Psychiatry Papers issue using the project rules and series ledger. Save a private draft for my review.” This requests drafting; approval, uploading the manuscript, and deliberate deployment remain separate actions.
+
+These repository skills use the authoritative local project and its private records. A public clone does not include the paper ledgers, appraisal standards, full-text access policy, review records, or scheduled app configurations; obtain the required local records before running editorial tasks. Private files stay outside the public repository.
+
 ## Editorial workflow
+
+The private `editorial/README.md` indexes current issues, recovered chat drafts, and outstanding review decisions across both series. Scheduled drafting must use this checkout and its existing private series ledger; the destination instructions are in `editorial/scheduled-draft-routing.md`. Scheduled appraisals require the full text of every featured article; when access is unavailable, request the specific PDF from the editor through uOttawa and keep the issue incomplete. The private `editorial/full-text-access-policy.md` records this requirement. A chat or Library document is not evidence that a draft was saved here. Reconcile an existing scheduled draft before generating another issue.
 
 Write issues in `_drafts/` with `approved: false` and `published: false`. Drafts and the `editorial/` folder stay on your Mac; `.gitignore` keeps them out of the repository. Back them up separately. Never force-add these folders to a public repository.
 
@@ -30,9 +42,9 @@ For a correction, revise a private local copy first. After reviewing the correct
 
 ## AI disclosure and About page
 
-The `newsletter-issue` layout adds `_includes/newsletter-footer.html` to both series. Keep this boilerplate out of individual article bodies. Each website issue displays AI assistance, its model and generation date when recorded, educational limits, the publisher's editorial responsibility, and a link to `/about/`.
+The `newsletter-issue` layout adds `_includes/newsletter-footer.html` to both series. Keep this boilerplate out of individual article bodies. Each website issue displays AI assistance, its model and generation date when recorded, educational limits, an editor credit, and a link to `/about/`.
 
-The About page explains the Jekyll newsletter-automation experiment, AI-assisted scholarly output, metadata policy, review and manual publication process, editorial accountability, and corrections. Longer project explanations belong there, not in every issue footer. Older issues with missing model metadata explicitly say it was not recorded; never infer their model from the current issue.
+The About page presents knowledge translation, publishing automation, and practical work with LLM agents as the project's connected aims. It gives the GitHub Pages/Jekyll pipeline, reusable agent instructions and skills, version control, validation, and deliberate publication a central place, alongside the newsletters and their editorial work. A brief founding-editor profile, source-verification standards, AI provenance, corrections, and educational limits complete the explanation. Longer project explanations belong there, not in every issue footer. Older issues with missing model metadata explicitly say it was not recorded; never infer their model from the current issue.
 
 For each new AI-assisted draft, record verified generation details in front matter, for example:
 
@@ -81,9 +93,9 @@ The free plan currently retains six months of analytics. Preserve dated monthly 
 
 | Priority | Work | Status |
 | --- | --- | --- |
-| 1 | Canonical page URLs, sitemap, crawler instructions, sharing metadata, and structured data | Implemented in source; requires review and deliberate publication |
-| 2 | Verify `psychiatrypapers.org` in Google Search Console and submit `/sitemap.xml` | After publication; requires access to the owner's Google account and domain verification |
-| 3 | Expand the editor profile with verified academic links and ORCID | Basic editor identity added; additional links still to verify |
+| 1 | Canonical page URLs, sitemap, crawler instructions, sharing metadata, and structured data | Published and live-checked November 27, 2026 |
+| 2 | Verify `psychiatrypapers.org` in Google Search Console and submit `/sitemap.xml` | Verified ownership and accepted sitemap November 27, 2026; 12 pages discovered; indexing/performance reporting still developing |
+| 3 | Expand the editor profile with verified academic links and ORCID | Brief editor bio retained by editorial choice; academic titles and profile links deferred |
 | 4 | Prepare a reusable framework and choose explicit code/content licences | Separate follow-up; public repository visibility does not grant a reuse licence |
 
 The shared `newsletter-seo.html` include adds canonical links, Open Graph and Twitter card metadata. Approved issue pages describe themselves as `BlogPosting`, with their original publication dates and Edward Bravo identified as **editor**. It does not invent an author, modification date, image, or drafting provenance. The homepage has `WebSite` structured data.
