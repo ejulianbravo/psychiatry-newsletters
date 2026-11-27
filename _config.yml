@@ -30,6 +30,9 @@ editor:
   name: Edward Bravo
   url: /about/#editor
 
+# Public Google Search Console ownership token for the HTTPS website.
+google_site_verification: "K3JAu6Da-6ugG2FjIPaoTGwUkWWNGOtj0ep7XRwYfz8"
+
 # Build settings
 theme: minima
 plugins:
